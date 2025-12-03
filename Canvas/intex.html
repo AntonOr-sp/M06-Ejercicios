@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas</title>
+    <style>
+        #canvas-box1,
+        #canvas-box2,
+        #canvas-box3,
+        #canvas-box4,
+        #canvas-box5,
+        #canvas-box6,
+        #canvas-box7,
+        #canvas-box8 {
+            border: solid 1px black;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Ejercicios de Canvas JS</h1>
+    <canvas id="canvas-box1" width="200px" height="200px"></canvas>
+    <canvas id="canvas-box2" width="200px" height="200px"></canvas>
+    <canvas id="canvas-box3" width="200px" height="200px"></canvas>
+    <canvas id="canvas-box4" width="200px" height="200px"></canvas>
+    <canvas id="canvas-box5" width="200px" height="200px"></canvas>
+    <canvas id="canvas-box6" width="200px" height="200px"></canvas>
+    <canvas id="canvas-box7" width="200px" height="200px"></canvas>
+    <canvas id="canvas-box8" width="200px" height="200px"></canvas>
+
+    <script type="application/javascript">
+        window.onload = function () {
+            canvasBox1();
+            canvasBox2();
+            canvasBox3();
+            canvasBox4();
+            canvasBox5();
+            canvasBox6();
+            canvasBox7();
+            canvasBox8();
+        }
+
+        function canvasBox1() {
+            var canvas = document.getElementById("canvas-box1");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+                //Un rectangulo rojo
+                ctx.fillStyle = "rgb(200,0,0)";
+                ctx.fillRect(10, 10, 50, 50);
+
+                ctx.fillStyle = "rgba(0,200,0,0.5)";
+                ctx.fillRect(30, 30, 100, 100);
+
+                ctx.fillStyle = "rgba(0,0,200,0.6)";
+                ctx.fillRect(48, 48, 50, 50);
+            }
+        }
+
+        function canvasBox2() {
+            var canvas = document.getElementById("canvas-box2");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+
+                ctx.fillStyle = "rgb(200,0,0)";
+                ctx.fillRect(50, 50, 100, 100); //dibuja un rectángulo relleno�.
+                ctx.clearRect(70, 70, 60, 60); //borra el área especificada y hace que sea totalmente transparente.
+
+                ctx.strokeStyle = "rgb(0, 0, 200)";
+                ctx.strokeRect(75, 75, 50, 50);
+            }
+        }
+
+        function canvasBox3() {
+            var canvas = document.getElementById("canvas-box3");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+
+                ctx.strokeStyle = "rgb(200,0,0)";
+                ctx.moveTo(50, 50);
+                ctx.lineTo(150, 150);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.strokeStyle = "rgb(200,0,0)";
+                ctx.moveTo(150, 50);
+                ctx.lineTo(50, 150);
+                ctx.stroke();
+
+            }
+        }
+
+        function canvasBox4() {
+            var canvas = document.getElementById("canvas-box4");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+
+                ctx.strokeStyle = "rgb(0,200,0)";
+                ctx.moveTo(100, 50);
+                ctx.lineTo(50, 150);
+                ctx.lineTo(150, 150);
+                ctx.lineTo(100, 50);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.fillStyle = "rgb(0,0,200)";
+                ctx.moveTo(100, 65);
+                ctx.lineTo(60, 142);
+                ctx.lineTo(140, 142);
+                ctx.lineTo(100, 65);
+                ctx.fill();
+            }
+        }
+
+        function canvasBox5() {
+            var canvas = document.getElementById("canvas-box5");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+
+                ctx.fillStyle = "rgb(255, 222, 77)"
+                ctx.arc(100, 100, 50, degToRad(45), degToRad(315));
+                ctx.lineTo(100, 100);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.fillStyle = "white";
+                ctx.strokeStyle = "rgb(0,0,0)";
+                ctx.arc(100, 70, 5, degToRad(0), degToRad(360));
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+
+        function canvasBox6() {
+            var canvas = document.getElementById("canvas-box6");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+
+                var gradient = ctx.createLinearGradient(100, 0, 100, 200);
+                gradient.addColorStop(0, "rgba(166, 255, 0, 0.0)");
+                gradient.addColorStop(1, "rgb(0, 0, 200)");
+
+                ctx.fillStyle = gradient;
+                ctx.fillRect(20, 20, 160, 160);
+            }
+        }
+
+        function canvasBox7() {
+            var canvas = document.getElementById("canvas-box7");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+
+                var gradient = ctx.createRadialGradient(200, 200, 225, 0, 0, 45);
+                gradient.addColorStop(1, "rgba(0, 150, 0, 0.0)");
+                gradient.addColorStop(0, "rgb(0, 150, 0)");
+
+                ctx.fillStyle = gradient;
+                ctx.fillRect(20, 20, 160, 160);
+            }
+        }
+
+        function canvasBox8() {
+            var canvas = document.getElementById("canvas-box8");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+
+                ctx.fillStyle = "rgb(166,200, 0)"
+                ctx.scale(3, 3);
+                ctx.fillText('Hello World', 10, 15);
+
+                ctx.strokeStyle = "rgb(0, 200, 0)"
+                ctx.strokeText('Zhaba', 20, 30);
+            }
+        }
+
+        function degToRad(degrees) {
+            return degrees * Math.PI / 180;
+        };
+
+    </script>
+
+</body>
+
+</html>
