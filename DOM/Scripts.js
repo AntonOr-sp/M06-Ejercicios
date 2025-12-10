@@ -20,15 +20,25 @@ function eje3(){
 }
 
 function tecladoNumerico(){
-    let valueNumbers = 4;
+    let valueNumbers = 50;
 
     let teclado = document.getElementById("teclado");
 
 
-    for(let i = 1; i<valueNumbers ;i++){
+    for(let i = 0; i<valueNumbers ;i++){
         let tecla = document.createElement("div");
         tecla.innerHTML = "<p>"+i+"</p>";
         tecla.className = "tecla";
+
+        if(i%2 === 0){
+            tecla.style.background="blue";
+            tecla.style.color="white";
+        }
+
+        if(i%3 === 0){
+            tecla.style.background="red";
+            tecla.style.color="white";
+        }
 
         teclado.appendChild(tecla);
     }
