@@ -9,35 +9,74 @@
 
     <style>
         .tecla {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
             width: 50px;
             height: 50px;
-            margin: 25px 25px 0 0;
-            background-color: goldenrod;
+            margin: 15px 15px 0 0;
+            background-color: orange;
+            border-radius: 5px;
             text-align: center;
         }
 
-        #teclado{
+        #miTexto {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            width: 500px;
+            height: 30px;
+            padding-left: 5px;
+            border-radius: 5px;
+            background-color: rgb(220, 220, 220);
+            display: flex;
+            align-items: center;
+        }
+
+        .boxTeclados {
+            display: flex;
+        }
+
+        #tecladoABC {
+            width: 800px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        #teclado {
             width: 225px;
             display: flex;
             flex-wrap: wrap;
+        }
+
+        button {
+            margin: 10px;
         }
     </style>
 </head>
 
 <body>
 
-    <h1 id="titulo">Título original</h1>
+    <!-- <h1 id="titulo">Título original</h1>
     <p id="parrafo">Texto original.</p>
     <img id="mascota" src="Media/rana2.jpg" style="width: 200px;">
     <p id="description">Esta es una rana</p>
 
-    <div id="contenedor"></div>
+    <div id="contenedor"></div> -->
 
     <section>
-        <h2>Ejercicio 1: Teclado numérico</h2>
-        <div id="teclado">
+        <h2>Ejercicio 2: Teclado Alfanumérico</h2>
+        <main>
+            <div id="miTexto"></div>
 
-        </div>
+            <button id="boton" onclick="borraLetra()">Borrar letra</button>
+            <button id="boton" onclick="comprobar()">Comprobar</button>
+
+            <div class="boxTeclados">
+                <div id="tecladoABC">
+
+                </div>
+                <div id="teclado">
+
+                </div>
+            </div>
+        </main>
     </section>
 
 </body>
