@@ -108,6 +108,7 @@ function escribeTecla(letra) {
     if (miTexto.textContent.length < 5) {
         miTexto.textContent += letra
         console.log("Has añadido " + letra + " y ahora hay: " + miTexto.textContent)
+        miTexto.style.backgroundColor = "rgb(220, 220, 220)";
     } else {
         miTexto.style.backgroundColor = "red";
         console.log("Demasiado largo");
@@ -145,9 +146,54 @@ function palabraSecreta() {
         });
 }
 
+function matrizLetras() {
+    let matriz = document.getElementById("matriz");
+
+    for (let i = 1; i < 7; i++) {
+        let line = document.createElement("div");
+        line.innerHTML = "";
+        line.setAttribute("id", "line" + i);
+
+        matriz.appendChild(line);
+
+        for (let a = 1; a < 6; a++) {
+            let cajaLetra = document.createElement("div");
+            cajaLetra.idName = "caja" + i + a;
+            cajaLetra.setAttribute("id", "caja" + i + "-" + a);
+
+            let lineID = document.getElementById("line" + i);
+            lineID.appendChild(cajaLetra);
+        }
+
+        //tecla.setAttribute('onclick', "escribeTecla('" + i + "')");
+
+
+    }
+}
+
+function escribeTecla(letra) {
+    console.log(letra);
+
+    let linea = 0;
+    let caja = 0;
+
+    
+    let miTexto = document.getElementById(linea + "-" + caja);
+
+    if (miTexto.textContent.length < 5) {
+        miTexto.textContent += letra
+        console.log("Has añadido " + letra + " y ahora hay: " + miTexto.textContent)
+        miTexto.style.backgroundColor = "rgb(220, 220, 220)";
+    } else {
+        miTexto.style.backgroundColor = "red";
+        console.log("Demasiado largo");
+    }
+}
 
 tecladoABC();
 
 tecladoNumerico();
 
 palabraSecreta();
+
+matrizLetras();
