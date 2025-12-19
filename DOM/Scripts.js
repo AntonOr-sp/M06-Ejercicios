@@ -81,7 +81,7 @@ function tecladoABC() {
 
         cambiarFondoABC(i, tecla);
 
-        tecla.setAttribute('onclick', "escribeTecla('" + String.fromCharCode(i) + "')");
+        tecla.setAttribute('onclick', "escribeTeclaW('" + String.fromCharCode(i) + "')");
 
         teclado.appendChild(tecla);
 
@@ -97,9 +97,6 @@ function cambiarFondoABC(i, tecla) {
     } else {
         tecla.style.background = "orange";
     }
-
-
-
 }
 
 function escribeTecla(letra) {
@@ -125,10 +122,10 @@ function borraLetra() {
 function comprobar() {
     let miTexto = document.getElementById("miTexto");
     if (miTexto.textContent == palabra) {
-        miTexto.backgroundColor = "green";
+        miTexto.style.backgroundColor = "green";
         alert("Respuesta correcta!");
     } else {
-        miTexto.backgroundColor = "red";
+        miTexto.style.backgroundColor = "red";
         alert("No has adivinado la palabra :(");
     }
 }
@@ -158,8 +155,8 @@ function matrizLetras() {
 
         for (let a = 1; a < 6; a++) {
             let cajaLetra = document.createElement("div");
-            cajaLetra.idName = "caja" + i + a;
             cajaLetra.setAttribute("id", "caja" + i + "-" + a);
+            cajaLetra.innerHTML = "";
 
             let lineID = document.getElementById("line" + i);
             lineID.appendChild(cajaLetra);
@@ -171,28 +168,85 @@ function matrizLetras() {
     }
 }
 
-function escribeTecla(letra) {
+let linea = 1;
+let caja = 1;
+function escribeTeclaW(letra) {
+    let miTexto = document.getElementById("caja" + linea + "-" + caja);
     console.log(letra);
-
-    let linea = 0;
-    let caja = 0;
-
-    
-    let miTexto = document.getElementById(linea + "-" + caja);
-
-    if (miTexto.textContent.length < 5) {
-        miTexto.textContent += letra
-        console.log("Has añadido " + letra + " y ahora hay: " + miTexto.textContent)
-        miTexto.style.backgroundColor = "rgb(220, 220, 220)";
-    } else {
-        miTexto.style.backgroundColor = "red";
-        console.log("Demasiado largo");
+    console.log(miTexto);
+    if(linea < 7){
+        if(caja < 6){
+            if (miTexto.textContent.length < 1) {
+                miTexto.textContent += letra
+                miTexto.style.backgroundColor = "rgb(220, 220, 220)";
+                if(caja < 5){
+                caja++;
+                }
+            }
+        } else {
+            alert("La palabra es demasiada larga");
+        }
     }
 }
 
-tecladoABC();
+function borraLetraW() {
+    let miTexto = document.getElementById("caja" + linea + "-" + caja);
+    console.log(caja);
+    console.log(linea);
+    if (miTexto.textContent.length === 0 && caja > 1) { 
+        caja--;
+        miTexto = document.getElementById("caja" + linea + "-" + caja); 
+    }
+    miTexto.textContent = miTexto.textContent.substring(0, miTexto.textContent.length - 1);
+    miTexto.style.backgroundColor = "";
+}
 
-tecladoNumerico();
+function comprobarW() {
+    let intento = "";
+    let cajas = [];
+
+    for (let i = 1; i <= 5; i++) {
+        let cajaLetra = document.getElementById("caja" + linea + "-" + i);
+        intento += cajaLetra.textContent;
+        cajas.push(cajaLetra);
+    }
+
+    if (intento.length < 5) {
+        alert("La palabra es incompleta! Añade más letras.");
+        return;
+    }
+
+    if(linea > 5){
+        alert("No has adivinado la palabra :( Palabra correcta es: " + palabra);
+    }
+
+    for (let i = 0; i < 5; i++) {
+        let letra = intento[i];
+
+        if (letra === palabra[i]) {
+            cajas[i].style.backgroundColor = "green";
+            cajas[i].style.color = "white";
+
+        } else if (palabra.includes(letra)) {
+            cajas[i].style.backgroundColor = "orange";
+            cajas[i].style.color = "white";
+
+        } else {
+            cajas[i].style.backgroundColor = "gray";
+            cajas[i].style.color = "white";
+        }
+    }
+
+    if (intento === palabra) {
+        alert("Respuesta correcta!");
+    } else {
+        linea++;
+        caja = 1;
+    }
+}
+
+
+tecladoABC();
 
 palabraSecreta();
 
