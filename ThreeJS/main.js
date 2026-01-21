@@ -1,10 +1,32 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'GLTFLoader';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+import { PMREMGenerator } from 'three/addons/pmrem/PMREMGenerator.js';
+
+const divHola = document.getElementById('saludos');
 
 // ESCENA
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x090909);
+
+// --- CARGAR HDRI ---
+const rgbeLoader = new RGBELoader();
+rgbeLoader.load('hdri/environment.hdr', function(texture) {
+  const pmremGenerator = new PMREMGenerator(renderer);
+  const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+  
+  scene.background = envMap; // Usar como fondo
+  scene.environment = envMap; // Usar como iluminación
+  
+  // Limpiar memoria
+  pmremGenerator.dispose();
+  texture.dispose();
+  
+  console.log('HDRI cargado correctamente');
+}, undefined, function(error) {
+  console.error('Error cargando HDRI:', error);
+});
 
 // CÁMARA
 const camera = new THREE.PerspectiveCamera(
@@ -28,7 +50,7 @@ scene.add(ambientLight);
 // Luz direccional (como el sol)
 const dirLight = new THREE.DirectionalLight(0xffffff, 1);
 dirLight.position.set(5, 5, 5);
-scene.add(dirLight); 
+scene.add(dirLight);
 
 // CREAR EL LOADER, objeto que me permite cargar un modelo GLB
 const loader = new GLTFLoader();
@@ -42,32 +64,11 @@ loader.load(
   function (gltf) {
     model = gltf.scene;
     scene.add(model);
-    
+
+    model.userData.name = "violin";
+
     // Guardar los materiales originales
     model.traverse((child) => {
-      if (child.isMesh) {
-        originalMaterials[child.uuid] = {
-          color: child.material.color.clone(),
-          emissive: child.material.emissive.clone()
-        };
-      }
-    });
-  },
-  undefined,
-  function (error) {
-    console.error('Error cargando GLB:', error);
-  }
-);
-
-// CARGAR OTRO MODELO
-loader.load(
-  'models/Arco.glb',
-  function (gltf) {
-    model2 = gltf.scene;
-    scene.add(model2);
-
-    // Guardar los materiales originales
-    model2.traverse((child) => {
       if (child.isMesh) {
         originalMaterials[child.uuid] = {
           color: child.material.color.clone(),
@@ -88,6 +89,63 @@ const mouse = new THREE.Vector2();
 let isHovering = false;
 let hoverProgress = 0; // 0 = sin hover, 1 = hover completo
 const hoverSpeed = 0.1; // Velocidad de animación
+let isZoomingTo = false; // Para controlar si está en zoom
+let zoomProgress = 0; // Progreso del zoom (0-1)
+let zoomTarget = null; // Posición objetivo del zoom
+const zoomSpeed = 0.05; // Velocidad del zoom
+
+// Función para animar la cámara hacia un objeto
+function zoomToObject(object) {
+  isZoomingTo = true;
+  zoomProgress = 0;
+  
+  // Calcular la posición del objeto
+  const boundingBox = new THREE.Box3().setFromObject(object);
+  const center = boundingBox.getCenter(new THREE.Vector3());
+  const size = boundingBox.getSize(new THREE.Vector3());
+  
+  // Calcular distancia para que el objeto se vea completamente
+  const maxDim = Math.max(size.x, size.y, size.z);
+  const fov = camera.fov * (Math.PI / 180);
+  const distance = maxDim / 2 / Math.tan(fov / 2);
+  
+  zoomTarget = {
+    position: center.clone().add(new THREE.Vector3(distance * 0.7, distance * 0.5, distance)),
+    lookAt: center
+  };
+  
+  console.log('Zoom a:', zoomTarget.position);
+}
+
+window.addEventListener('click', (event) => {
+  if (!model) return; // Asegurarse que el modelo está cargado
+
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects([model], true); // Usar array con modelo
+  
+  if (intersects.length > 0) {
+    const objectHit = intersects[0].object;
+    console.log('Clickeaste en:', objectHit.name); // Para debuggear
+    
+    if (objectHit.parent === model || objectHit === model) { // Verificar si pertenece al violín
+      // MOSTRAMOS LA CAPA
+      divHola.style.display = 'block';
+      divHola.innerHTML += "<p>Me has dado en el violin</p>";
+      
+      // Zoom a la cámara hacia el objeto
+      zoomToObject(model);
+      
+      // LA OCULTAMOS AUTOMÁTICAMENTE después de 6 segundos
+      setTimeout(() => {
+        divHola.style.display = 'none';
+      }, 10000);
+    }
+  }
+});
+
 
 window.addEventListener('mousemove', (event) => {
   // Convertir posición del mouse a coordenadas normalizadas (-1 a 1)
@@ -122,6 +180,23 @@ controls.enableDamping = true; // Añade inercia al movimiento (más suave)
 function animate() {
   requestAnimationFrame(animate);
 
+  // Animar zoom hacia el objeto
+  if (isZoomingTo && zoomTarget && zoomProgress < 1) {
+    zoomProgress = Math.min(zoomProgress + zoomSpeed, 1);
+    
+    // Interpolación suave entre posición actual y objetivo
+    camera.position.lerp(zoomTarget.position, zoomSpeed);
+    
+    // Mirar hacia el objeto
+    camera.lookAt(zoomTarget.lookAt);
+    
+    // Cuando termina el zoom
+    if (zoomProgress >= 1) {
+      isZoomingTo = false;
+      controls.target.copy(zoomTarget.lookAt);
+    }
+  }
+
   // Animar el hover gradualmente
   if (isHovering && hoverProgress < 1) {
     hoverProgress = Math.min(hoverProgress + hoverSpeed, 1);
@@ -152,7 +227,7 @@ animate();
 
 // Ajustar si cambian el tamaño de la ventana
 window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
 });
