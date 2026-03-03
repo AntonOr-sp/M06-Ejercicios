@@ -1,32 +1,12 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'GLTFLoader';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
-import { PMREMGenerator } from 'three/addons/pmrem/PMREMGenerator.js';
 
 const divHola = document.getElementById('saludos');
 
 // ESCENA
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x090909);
-
-// --- CARGAR HDRI ---
-const rgbeLoader = new RGBELoader();
-rgbeLoader.load('hdri/environment.hdr', function(texture) {
-  const pmremGenerator = new PMREMGenerator(renderer);
-  const envMap = pmremGenerator.fromEquirectangular(texture).texture;
-  
-  scene.background = envMap; // Usar como fondo
-  scene.environment = envMap; // Usar como iluminación
-  
-  // Limpiar memoria
-  pmremGenerator.dispose();
-  texture.dispose();
-  
-  console.log('HDRI cargado correctamente');
-}, undefined, function(error) {
-  console.error('Error cargando HDRI:', error);
-});
 
 // CÁMARA
 const camera = new THREE.PerspectiveCamera(
@@ -60,12 +40,12 @@ const originalMaterials = {}; // Guardar materiales originales
 
 // CARGAR MODELO
 loader.load(
-  'models/Violin.glb',
+  'models/baseModel.glb',
   function (gltf) {
     model = gltf.scene;
     scene.add(model);
 
-    model.userData.name = "violin";
+    model.userData.name = "BaseModel";
 
     // Guardar los materiales originales
     model.traverse((child) => {
