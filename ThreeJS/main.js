@@ -59,7 +59,175 @@ loader.load(
   },
   undefined,
   function (error) {
-    console.error('Error cargando GLB:', error);
+    console.error('Error cargando baseModel.glb:', error);
+  }
+);
+
+// CARGAR SEGUNDO MODELO
+loader.load(
+  'models/Brain.glb',
+  function (gltf) {
+    model2 = gltf.scene;
+    scene.add(model2);
+
+    model2.userData.name = "BrainModel";
+
+    model2.traverse((child) => {
+      if (child.isMesh) {
+        originalMaterials[child.uuid] = {
+          color: child.material.color.clone(),
+          emissive: child.material.emissive.clone()
+        };
+      }
+    });
+  },
+  undefined,
+  function (error) {
+    console.error('Error cargando Brain.glb:', error);
+  }
+);
+
+// CARGAR TERCERO MODELO
+loader.load(
+  'models/comodo.glb',
+  function (gltf) {
+    model3 = gltf.scene;
+    scene.add(model3);
+
+    model3.userData.name = "ComodoModel";
+
+    model3.traverse((child) => {
+      if (child.isMesh) {
+        originalMaterials[child.uuid] = {
+          color: child.material.color.clone(),
+          emissive: child.material.emissive.clone()
+        };
+      }
+    });
+  },
+  undefined,
+  function (error) {
+    console.error('Error cargando Comodo.glb:', error);
+  }
+);
+
+// CARGAR CUARTO MODELO
+loader.load(
+  'models/cuadro1.glb',
+  function (gltf) {
+    model4 = gltf.scene;
+    scene.add(model4);
+
+    model4.userData.name = "Cuadro1Model";
+
+    model4.traverse((child) => {
+      if (child.isMesh) {
+        originalMaterials[child.uuid] = {
+          color: child.material.color.clone(),
+          emissive: child.material.emissive.clone()
+        };
+      }
+    });
+  },
+  undefined,
+  function (error) {
+    console.error('Error cargando Cuadro1.glb:', error);
+  }
+);
+
+// CARGAR QUINTO MODELO
+loader.load(
+  'models/cuadro2.glb',
+  function (gltf) {
+    model5 = gltf.scene;
+    scene.add(model5);
+
+    model5.userData.name = "Cuadro2Model";
+
+    model5.traverse((child) => {
+      if (child.isMesh) {
+        originalMaterials[child.uuid] = {
+          color: child.material.color.clone(),
+          emissive: child.material.emissive.clone()
+        };
+      }
+    });
+  },
+  undefined,
+  function (error) {
+    console.error('Error cargando Cuadro2.glb:', error);
+  }
+);
+
+// CARGAR SEXTO MODELO
+loader.load(
+  'models/cuadro3.glb',
+  function (gltf) {
+    model6 = gltf.scene;
+    scene.add(model6);
+
+    model6.userData.name = "Cuadro3Model";
+
+    model6.traverse((child) => {
+      if (child.isMesh) {
+        originalMaterials[child.uuid] = {
+          color: child.material.color.clone(),
+          emissive: child.material.emissive.clone()
+        };
+      }
+    });
+  },
+  undefined,
+  function (error) {
+    console.error('Error cargando Cuadro3.glb:', error);
+  }
+);
+
+// CARGAR SEPTMO MODELO
+loader.load(
+  'models/libre.glb',
+  function (gltf) {
+    model7 = gltf.scene;
+    scene.add(model7);
+
+    model7.userData.name = "LibreModel";
+
+    model7.traverse((child) => {
+      if (child.isMesh) {
+        originalMaterials[child.uuid] = {
+          color: child.material.color.clone(),
+          emissive: child.material.emissive.clone()
+        };
+      }
+    });
+  },
+  undefined,
+  function (error) {
+    console.error('Error cargando Libre.glb:', error);
+  }
+);
+
+// CARGAR OCTAVO MODELO
+loader.load(
+  'models/Megafono.glb',
+  function (gltf) {
+    model8 = gltf.scene;
+    scene.add(model8);
+
+    model8.userData.name = "MegafonoModel";
+
+    model8.traverse((child) => {
+      if (child.isMesh) {
+        originalMaterials[child.uuid] = {
+          color: child.material.color.clone(),
+          emissive: child.material.emissive.clone()
+        };
+      }
+    });
+  },
+  undefined,
+  function (error) {
+    console.error('Error cargando Megafono.glb:', error);
   }
 );
 
