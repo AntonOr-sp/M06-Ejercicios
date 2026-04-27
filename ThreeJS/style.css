@@ -1,0 +1,82 @@
+/*FONTS*/
+@font-face {
+    font-family: Libertinus Regular;
+    src: url(Media/Fonts/LibertinusSans-Regular.ttf);
+}
+
+@font-face {
+    font-family: Libertinus Bold;
+    src: url(Media/Fonts/LibertinusSans-Bold.ttf);
+}
+
+@font-face {
+    font-family: Libertinus Italic;
+    src: url(Media/Fonts/LibertinusSans-Italic.ttf);
+}
+
+/*CODIGO*/
+
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+#saludos {
+    display: none;
+    width: 500px;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%);
+    padding: 25px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-title, h3 {
+    font-family: Libertinus Regular;
+    margin: 0 0 10px 0;
+}
+
+.modal-text, p, ul, a, button {
+    font-family: sans-serif;
+    font-size: 0.9rem;
+    margin: 0 0 10px 0;
+}
+
+.portfolio-link {
+    color: #007bff;
+    text-decoration: none;
+    font-style: italic;
+}
+
+.hard-skills-title {
+    margin: 15px 0 8px 0;
+}
+
+.ul-skills {
+    margin: 0 0 10px 0;
+}
+
+.contact-title {
+    margin: 15px 0 8px 0;
+}
+
+.contact-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
+    gap: 15px;
+}
+
+.contact-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.close-btn {
+    margin-top: 10px;
+}
